@@ -364,7 +364,7 @@ export default function App() {
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight">Ebeveyn Mentoru ve Okul Seçim Uzmanı Ali Koç'tan En Çok Hangi Konuda İçerik Duymak İstersiniz?</h2>
             <div className="relative">
               <textarea 
-                className="w-full p-6 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all text-lg font-medium resize-none min-h-[240px]"
+                className="w-full p-6 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all text-lg font-medium text-gray-900 resize-none min-h-[240px]"
                 placeholder="Örn: Sınav kaygısı ile nasıl baş edebilirim?"
                 maxLength={200}
                 value={formData.mentorFeedback}
