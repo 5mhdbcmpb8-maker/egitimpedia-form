@@ -92,7 +92,11 @@ export default function App() {
   }, [formData]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Mobilde klavye açılınca kaymayı önlemek için smooth scroll'u sadece üst kısma odaklıyoruz
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     let newProgress = 0;
     if (currentStep <= 4) newProgress = (currentStep / 4) * 75;
     else {
@@ -144,7 +148,10 @@ export default function App() {
       else handleSubmit();
     } else {
       setErrorMsg('Lütfen devam etmeden önce zorunlu (*) alanları doldurunuz.');
-      setTimeout(() => setErrorMsg(''), 3000);
+      // Mobilde hata mesajına scroll yap
+      const errorDiv = document.getElementById('error-message');
+      if(errorDiv) errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => setErrorMsg(''), 4000);
     }
   };
 
@@ -379,7 +386,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 selection:bg-orange-100 selection:text-orange-900 font-sans">
+    // Mobilde dikey ortalamayı kaldırdık (flex-col items-center justify-center -> flex flex-col items-center)
+    // Bu sayede klavye açılınca içerik yukarı kayabilir
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4 pt-24 pb-10 selection:bg-orange-100 selection:text-orange-900 font-sans">
       
       {/* Top Header Fixed - SOLID WHITE BACKGROUND */}
       <div className="fixed top-0 left-0 w-full bg-white z-50 border-b border-gray-100 shadow-sm">
@@ -405,14 +414,14 @@ export default function App() {
         </div>
       </div>
 
-      <div className="w-full max-w-3xl mt-24 mb-10">
+      <div className="w-full max-w-3xl mt-4 mb-10">
         <div className="bg-white rounded-[2rem] shadow-xl shadow-gray-200/50 border border-white p-1 overflow-hidden">
           <div className="p-6 md:p-12 min-h-[400px] flex flex-col justify-center">
             {renderContent()}
           </div>
           
           {errorMsg && (
-            <div className="px-6 md:px-12 pb-6">
+            <div id="error-message" className="px-6 md:px-12 pb-6 scroll-mt-24">
               <div className="bg-red-50 text-red-600 px-5 py-4 rounded-xl text-sm font-medium flex items-center animate-bounce shadow-sm border border-red-100">
                 <AlertCircle size={20} className="mr-3" /> {errorMsg}
               </div>
@@ -421,6 +430,7 @@ export default function App() {
 
           <div className="bg-gray-50 px-6 md:px-12 py-6 border-t border-gray-100 flex justify-between items-center rounded-b-[1.8rem]">
             <button 
+              type="button"
               onClick={handleBack} 
               disabled={currentStep === 1 || isSubmitting}
               className={`
@@ -435,11 +445,12 @@ export default function App() {
             </button>
 
             <button 
+              type="button"
               onClick={handleNext} 
               disabled={isSubmitting}
               className={`
                 flex items-center px-8 py-4 rounded-xl text-base font-bold text-white shadow-xl shadow-orange-500/20 transition-all transform active:scale-95 hover:-translate-y-1
-                ${isSubmitting ? 'bg-orange-300 cursor-wait' : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'}
+                ${isSubmitting ? 'bg-orange-300 cursor-wait' : 'bg-orange-600 hover:bg-orange-700'}
               `}
             >
               {isSubmitting ? (
