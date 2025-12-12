@@ -13,8 +13,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://egitimpedia-form.vercel.app"),
   title: "Eğitimpedia Okul Tercih Formu",
-  description: "",
+  description: "Eğitimpedia Okul Tercih Formu",
+
+  icons: {
+    icon: "/favicon.ico",
+  },
+
+  openGraph: {
+    type: "website",
+    url: "https://egitimpedia-form.vercel.app",
+    title: "Eğitimpedia Okul Tercih Formu",
+    description: "Eğitimpedia Okul Tercih Formu",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Eğitimpedia",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Eğitimpedia Okul Tercih Formu",
+    description: "Eğitimpedia Okul Tercih Formu",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({
@@ -23,10 +50,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="tr">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
