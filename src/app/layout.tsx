@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-// Ortam hatasını önlemek için font ve css importlarını geçici olarak kapatıyoruz.
-// Gerçek projenizde dosyalar varsa bunları açabilirsiniz.
-// import { Inter } from "next/font/google";
-// import "./globals.css";
+// import { Inter } from "next/font/google"; // Hata almamak için geçici olarak kapatıldı
+// import "./globals.css"; // Hata almamak için geçici olarak kapatıldı
 
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Eğitimpedia", // Sekme başlığı
-  description: "Okul Tercih Formu", // Site açıklaması
+  title: "Eğitimpedia",
+  description: "Okul Tercih Formu",
   icons: {
-    icon: '/logo.png', // Sekme ikonu
+    icon: '/logo.png',
   },
 };
 
@@ -22,9 +20,9 @@ export default function RootLayout({
   // Önizleme ortamında "<html> cannot appear as a child of <div>" hatasını önlemek için
   // html ve body etiketleri yerine div kullanılmıştır.
   return (
-    <div lang="tr" style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh", fontFamily: "sans-serif" }}>
       {/* <body className={inter.className}>{children}</body> */}
-      <div style={{ minHeight: "100vh" }}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 }
