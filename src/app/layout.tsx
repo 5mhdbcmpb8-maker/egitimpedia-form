@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+// Ortam hatasını önlemek için font ve css importlarını geçici olarak kapatıyoruz.
+// Gerçek projenizde dosyalar varsa bunları açabilirsiniz.
+// import { Inter } from "next/font/google";
+// import "./globals.css";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Eğitimpedia Okul Tercih Formu",
-  description: "",
+  title: "Eğitimpedia", // Sekme başlığı
+  description: "Okul Tercih Formu", // Site açıklaması
+  icons: {
+    icon: '/logo.png', // Sekme ikonu
+  },
 };
 
 export default function RootLayout({
@@ -23,13 +19,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Önizleme ortamında "<html> cannot appear as a child of <div>" hatasını önlemek için
+  // html ve body etiketleri yerine div kullanılmıştır.
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <div lang="tr" style={{ minHeight: "100vh" }}>
+      {/* <body className={inter.className}>{children}</body> */}
+      <div style={{ minHeight: "100vh" }}>{children}</div>
+    </div>
   );
 }
