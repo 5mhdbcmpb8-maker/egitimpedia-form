@@ -197,30 +197,30 @@ export default function App() {
     <div 
       onClick={onClick}
       className={`
-        group relative p-5 rounded-xl border-2 transition-all duration-200 cursor-pointer flex items-start
+        group relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start
         ${selected 
-          ? 'border-orange-500 bg-orange-50/50 shadow-sm' 
-          : 'border-gray-200 hover:border-orange-200 bg-white hover:shadow-sm'
+          ? 'border-orange-500 bg-orange-50 shadow-md shadow-orange-100 ring-1 ring-orange-200' 
+          : 'border-gray-200 bg-white hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50'
         }
       `}
     >
       <div className={`
-        mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 mr-4 transition-colors
-        ${type === 'radio' ? 'rounded-full' : 'rounded-md'}
-        ${selected ? 'bg-orange-500 border-orange-500' : 'border-gray-300 bg-white'}
+        mt-0.5 w-6 h-6 flex items-center justify-center flex-shrink-0 mr-4 transition-all duration-300
+        ${type === 'radio' ? 'rounded-full' : 'rounded-lg'}
+        ${selected ? 'bg-orange-500 scale-110 shadow-sm' : 'border-2 border-gray-300 bg-gray-50 group-hover:border-orange-300'}
       `}>
-        {selected && <Check size={12} className="text-white" strokeWidth={3} />}
+        {selected && <Check size={14} className="text-white" strokeWidth={3} />}
       </div>
       
       <div className="flex-1">
-        <span className={`text-base font-medium ${selected ? 'text-gray-900' : 'text-gray-600'}`}>
+        <span className={`text-base font-medium leading-relaxed ${selected ? 'text-gray-900' : 'text-gray-600 group-hover:text-gray-800'}`}>
           {label}
         </span>
         {hasInput && selected && (
-          <div className="mt-3 animate-in fade-in slide-in-from-top-1" onClick={(e) => e.stopPropagation()}>
+          <div className="mt-4 animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
             <input 
               type="text" 
-              className="w-full p-2 bg-white border-b-2 border-orange-300 focus:border-orange-600 outline-none text-gray-900 placeholder-gray-400 text-sm transition-colors"
+              className="w-full p-3 bg-white border-2 border-orange-200 rounded-lg focus:border-orange-500 focus:ring-4 focus:ring-orange-100/50 outline-none text-gray-900 placeholder-gray-400 text-sm transition-all"
               placeholder="Lütfen belirtiniz..."
               value={inputValue}
               onChange={(e) => onInputChange(e.target.value)}
@@ -235,8 +235,8 @@ export default function App() {
   // --- Başarılı Ekranı ---
   if (submitStatus === 'success') {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-lg w-full animate-in zoom-in duration-500">
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
+        <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-gray-200 animate-in zoom-in duration-500">
           
           {/* Logo (Büyük, Yeşil Tik Üstünde) */}
           <div className="flex justify-center mb-8">
@@ -247,21 +247,19 @@ export default function App() {
              )}
           </div>
 
-          <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
-            <Check size={48} />
+          <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-green-200 shadow-lg animate-bounce">
+            <Check size={40} strokeWidth={3} />
           </div>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Talebiniz Alındı</h2>
-          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-            Okul tercih ve tavsiye formunuz başarıyla bize ulaştı. Uzman ekibimiz en kısa sürede sizinle iletişime geçecektir.
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4 tracking-tight">Talebiniz Alındı!</h2>
+          <p className="text-gray-600 text-lg mb-8 leading-relaxed font-medium">
+            Okul tercih ve tavsiye formunuz başarıyla bize ulaştı. <br/>
+            <span className="text-orange-600 font-semibold">Uzman ekibimiz en kısa sürede sizinle iletişime geçecektir.</span>
           </p>
-          <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100 mb-8">
-            <p className="font-semibold text-orange-600">Sizinle eğitim yolculuğunda buluşmak için sabırsızlanıyoruz!</p>
-          </div>
           
-          <div className="flex justify-center gap-6 mt-8">
-            <a href="https://x.com/alikocedu?s=20" target="_blank" className="text-gray-400 hover:text-black transition-colors"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg></a>
-            <a href="https://www.instagram.com/alikocedu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram size={28} /></a>
-            <a href="https://www.facebook.com/alikoc72" target="_blank" className="text-gray-400 hover:text-blue-600 transition-colors"><Facebook size={28} /></a>
+          <div className="flex justify-center gap-6 mt-8 border-t border-gray-100 pt-8">
+            <a href="https://x.com/alikocedu?s=20" target="_blank" className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-black hover:text-white hover:scale-110 transition-all duration-300"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg></a>
+            <a href="https://www.instagram.com/alikocedu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-pink-600 hover:text-white hover:scale-110 transition-all duration-300"><Instagram size={24} /></a>
+            <a href="https://www.facebook.com/alikoc72" target="_blank" className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-300"><Facebook size={24} /></a>
           </div>
         </div>
       </div>
@@ -269,11 +267,10 @@ export default function App() {
   }
 
   const renderContent = () => {
-    // Soru oluşturucu fonksiyonu en tepeye taşıdık (Scope hatasını çözer)
     const renderQuestion = (title: string, field: keyof FormData, options: string[], multi = false, layout: 'grid' | 'list' = 'list', otherField?: keyof FormData) => (
-      <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight">{title}</h2>
-        <div className={layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-3' : 'space-y-3'}>
+      <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight tracking-tight">{title}</h2>
+        <div className={layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'space-y-4'}>
           {options.map((opt) => (
             <SelectionCard 
               key={opt}
@@ -294,53 +291,53 @@ export default function App() {
       case 1:
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="space-y-2 mb-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Veli Bilgileri</h1>
-              <p className="text-gray-500 text-sm md:text-base">Eğitim danışmanlığı sürecini başlatmak için bilgilerinizi giriniz.</p>
+            <div className="space-y-3 mb-8 text-center md:text-left">
+              <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Eğitim Yolculuğu Başlıyor</h1>
+              <p className="text-gray-500 text-base md:text-lg font-medium">Sizi ve çocuğunuzu daha yakından tanımak için lütfen bilgilerinizi giriniz.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="col-span-1 md:col-span-2 space-y-1.5">
-                <label className="text-sm font-semibold text-gray-700 ml-1">Adı ve Soyadı <span className="text-orange-600">*</span></label>
-                <input type="text" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all" placeholder="Ad Soyad" value={formData.firstname} onChange={(e) => updateField('firstname', e.target.value)} />
+              <div className="col-span-1 md:col-span-2 space-y-2">
+                <label className="text-sm font-bold text-gray-700 ml-1 uppercase tracking-wide">Adı ve Soyadı <span className="text-orange-500">*</span></label>
+                <input type="text" className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all font-medium text-gray-900" placeholder="Ad Soyad" value={formData.firstname} onChange={(e) => updateField('firstname', e.target.value)} />
               </div>
               
-              <div className="space-y-1.5">
-                <label className="text-sm font-semibold text-gray-700 ml-1">Telefon Numarası <span className="text-orange-600">*</span></label>
-                <input type="tel" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all" placeholder="05XX..." value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} />
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700 ml-1 uppercase tracking-wide">Telefon Numarası <span className="text-orange-500">*</span></label>
+                <input type="tel" className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all font-medium text-gray-900" placeholder="05XX..." value={formData.phone} onChange={(e) => updateField('phone', e.target.value)} />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-semibold text-gray-700 ml-1">E-posta Adresi <span className="text-orange-600">*</span></label>
-                <input type="email" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all" placeholder="ornek@mail.com" value={formData.email} onChange={(e) => updateField('email', e.target.value)} />
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700 ml-1 uppercase tracking-wide">E-posta Adresi <span className="text-orange-500">*</span></label>
+                <input type="email" className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all font-medium text-gray-900" placeholder="ornek@mail.com" value={formData.email} onChange={(e) => updateField('email', e.target.value)} />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-semibold text-gray-700 ml-1">İl <span className="text-orange-600">*</span></label>
-                <input type="text" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all" placeholder="İstanbul" value={formData.city} onChange={(e) => updateField('city', e.target.value)} />
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700 ml-1 uppercase tracking-wide">İl <span className="text-orange-500">*</span></label>
+                <input type="text" className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all font-medium text-gray-900" placeholder="İstanbul" value={formData.city} onChange={(e) => updateField('city', e.target.value)} />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-semibold text-gray-700 ml-1">İlçe <span className="text-orange-600">*</span></label>
-                <input type="text" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all" placeholder="Kadıköy" value={formData.district} onChange={(e) => updateField('district', e.target.value)} />
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700 ml-1 uppercase tracking-wide">İlçe <span className="text-orange-500">*</span></label>
+                <input type="text" className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all font-medium text-gray-900" placeholder="Kadıköy" value={formData.district} onChange={(e) => updateField('district', e.target.value)} />
               </div>
             </div>
 
-            <div className="pt-4 border-t border-gray-100 space-y-4">
-              <label className="flex items-start cursor-pointer group">
-                <div className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center mr-3 transition-colors ${formData.kvkkConsent ? 'bg-orange-500 border-orange-500' : 'border-gray-300 bg-white'}`}>
-                  {formData.kvkkConsent && <Check size={12} className="text-white" />}
+            <div className="pt-6 border-t border-gray-100 space-y-4">
+              <label className="flex items-start cursor-pointer group p-3 -ml-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div className={`mt-0.5 w-6 h-6 rounded-lg border-2 flex items-center justify-center mr-3 transition-colors flex-shrink-0 ${formData.kvkkConsent ? 'bg-orange-500 border-orange-500' : 'border-gray-300 bg-white group-hover:border-orange-400'}`}>
+                  {formData.kvkkConsent && <Check size={14} className="text-white" strokeWidth={3} />}
                 </div>
                 <input type="checkbox" className="hidden" checked={formData.kvkkConsent} onChange={(e) => updateField('kvkkConsent', e.target.checked)} />
-                <span className="text-sm text-gray-600"><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">KVKK Aydınlatma Metni</span>'ni okudum ve kabul ediyorum. <span className="text-orange-600">*</span></span>
+                <span className="text-sm text-gray-600 font-medium"><span className="font-bold text-gray-900 underline decoration-gray-300 underline-offset-4 hover:decoration-orange-400 transition-all">KVKK Aydınlatma Metni</span>'ni okudum ve kabul ediyorum. <span className="text-orange-500">*</span></span>
               </label>
               
-              <label className="flex items-start cursor-pointer group">
-                <div className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center mr-3 transition-colors ${formData.marketingConsent ? 'bg-orange-500 border-orange-500' : 'border-gray-300 bg-white'}`}>
-                  {formData.marketingConsent && <Check size={12} className="text-white" />}
+              <label className="flex items-start cursor-pointer group p-3 -ml-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div className={`mt-0.5 w-6 h-6 rounded-lg border-2 flex items-center justify-center mr-3 transition-colors flex-shrink-0 ${formData.marketingConsent ? 'bg-orange-500 border-orange-500' : 'border-gray-300 bg-white group-hover:border-orange-400'}`}>
+                  {formData.marketingConsent && <Check size={14} className="text-white" strokeWidth={3} />}
                 </div>
                 <input type="checkbox" className="hidden" checked={formData.marketingConsent} onChange={(e) => updateField('marketingConsent', e.target.checked)} />
-                <span className="text-sm text-gray-600">Tarafıma ticari elektronik ileti gönderilmesini kabul ediyorum.</span>
+                <span className="text-sm text-gray-600 font-medium">Tarafıma ticari elektronik ileti gönderilmesini kabul ediyorum.</span>
               </label>
             </div>
           </div>
@@ -358,22 +355,22 @@ export default function App() {
         const opts = isYoung ? OPTIONS.step9_young : OPTIONS.step9_old;
         return opts.length > 0 
           ? renderQuestion(`Eğitim Yaklaşımınız (${isYoung ? 'Anaokulu & İlkokul' : 'Ortaokul & Lise'})`, 'educationValues', opts, true) 
-          : <div className="text-center p-8 text-gray-500">Lütfen önce eğitim kademesini seçiniz.</div>;
+          : <div className="text-center p-8 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">Lütfen önce 2. adımda eğitim kademesini seçiniz.</div>;
       case 10: return renderQuestion('Webinar Sonrasında Hangi İçeriği Almak İstersiniz?', 'postWebinarContent', OPTIONS.step10, true, 'list', 'postWebinarOtherText');
       case 11: return renderQuestion('Keşke Şöyle Bir Platform Olsa Dediğiniz Özellikler?', 'platformWishlist', OPTIONS.step11, true, 'list', 'platformWishlistOtherText');
       case 12: 
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900">Ebeveyn Mentoru ve Okul Seçim Uzmanı Ali Koç'tan En Çok Hangi Konuda İçerik Duymak İstersiniz?</h2>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight">Ebeveyn Mentoru ve Okul Seçim Uzmanı Ali Koç'tan En Çok Hangi Konuda İçerik Duymak İstersiniz?</h2>
             <div className="relative">
               <textarea 
-                className="w-full p-5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition-all text-lg resize-none min-h-[200px]"
+                className="w-full p-6 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all text-lg font-medium resize-none min-h-[240px]"
                 placeholder="Örn: Sınav kaygısı ile nasıl baş edebilirim?"
                 maxLength={200}
                 value={formData.mentorFeedback}
                 onChange={(e) => updateField('mentorFeedback', e.target.value)}
               />
-              <div className="text-right text-xs text-gray-400 mt-2">{formData.mentorFeedback.length}/200</div>
+              <div className="text-right text-sm font-medium text-gray-400 mt-3">{formData.mentorFeedback.length}/200</div>
             </div>
           </div>
         );
@@ -382,76 +379,78 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 font-sans text-gray-800 flex items-center justify-center p-4 selection:bg-orange-100">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 selection:bg-orange-100 selection:text-orange-900 font-sans">
       
-      {/* Top Header Fixed */}
-      <div className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      {/* Top Header Fixed - SOLID WHITE BACKGROUND */}
+      <div className="fixed top-0 left-0 w-full bg-white z-50 border-b border-gray-100 shadow-sm">
+        <div className="max-w-3xl mx-auto px-4 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4">
              {!logoError ? (
-                <img src="/logo.png" alt="Eğitimpedia" className="h-8 w-auto object-contain" onError={() => setLogoError(true)} />
+                <img src="/logo.png" alt="Eğitimpedia" className="h-10 w-auto object-contain" onError={() => setLogoError(true)} />
              ) : (
-                <span className="font-bold text-xl text-orange-600 tracking-tight">Eğitimpedia</span>
+                <span className="font-black text-2xl text-orange-600 tracking-tighter">Eğitimpedia</span>
              )}
           </div>
-          {/* Başvuru Sihirbazı yazısı kaldırıldı */}
+          {/* Progress Indicator */}
+          <div className="hidden md:flex items-center gap-3">
+             <div className="text-sm font-bold text-gray-400">Adım {currentStep} <span className="text-gray-300">/</span> {TOTAL_STEPS}</div>
+             <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-orange-500 rounded-full transition-all duration-500" style={{ width: `${progressPercentage}%` }}></div>
+             </div>
+          </div>
         </div>
-        {/* Progress Line */}
-        <div className="h-1 bg-gray-100 w-full">
+        {/* Mobile Progress Line */}
+        <div className="md:hidden h-1 bg-gray-100 w-full">
           <div className="h-full bg-orange-600 transition-all duration-500 ease-out" style={{ width: `${progressPercentage}%` }} />
         </div>
       </div>
 
-      <div className="w-full max-w-2xl mt-20 mb-10">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="p-6 md:p-10 min-h-[400px] flex flex-col justify-center">
+      <div className="w-full max-w-3xl mt-24 mb-10">
+        <div className="bg-white rounded-[2rem] shadow-xl shadow-gray-200/50 border border-white p-1 overflow-hidden">
+          <div className="p-6 md:p-12 min-h-[400px] flex flex-col justify-center">
             {renderContent()}
           </div>
           
           {errorMsg && (
-            <div className="px-6 md:px-10 pb-4">
-              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm flex items-center animate-pulse">
-                <AlertCircle size={18} className="mr-2" /> {errorMsg}
+            <div className="px-6 md:px-12 pb-6">
+              <div className="bg-red-50 text-red-600 px-5 py-4 rounded-xl text-sm font-medium flex items-center animate-bounce shadow-sm border border-red-100">
+                <AlertCircle size={20} className="mr-3" /> {errorMsg}
               </div>
             </div>
           )}
 
-          <div className="bg-gray-50 px-6 md:px-10 py-6 border-t border-gray-100 flex justify-between items-center">
+          <div className="bg-gray-50 px-6 md:px-12 py-6 border-t border-gray-100 flex justify-between items-center rounded-b-[1.8rem]">
             <button 
               onClick={handleBack} 
               disabled={currentStep === 1 || isSubmitting}
               className={`
-                flex items-center px-5 py-2.5 rounded-lg text-sm font-medium transition-colors
+                flex items-center px-6 py-3.5 rounded-xl text-base font-bold transition-all
                 ${currentStep === 1 
                   ? 'text-gray-300 cursor-not-allowed opacity-0' 
-                  : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900'
+                  : 'text-gray-500 hover:bg-white hover:text-gray-900 hover:shadow-md'
                 }
               `}
             >
-              <ChevronLeft size={18} className="mr-1" /> Geri
+              <ChevronLeft size={20} className="mr-1" /> Geri
             </button>
 
             <button 
               onClick={handleNext} 
               disabled={isSubmitting}
               className={`
-                flex items-center px-8 py-3 rounded-lg text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition-all transform active:scale-95
-                ${isSubmitting ? 'bg-orange-300 cursor-wait' : 'bg-orange-600 hover:bg-orange-700'}
+                flex items-center px-8 py-4 rounded-xl text-base font-bold text-white shadow-xl shadow-orange-500/20 transition-all transform active:scale-95 hover:-translate-y-1
+                ${isSubmitting ? 'bg-orange-300 cursor-wait' : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'}
               `}
             >
               {isSubmitting ? (
-                <Loader2 className="animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={20} />
               ) : currentStep === TOTAL_STEPS ? (
-                <>Tamamla <Check size={18} className="ml-2" /></>
+                <>Kaydı Tamamla <Check size={20} className="ml-2" /></>
               ) : (
-                <>Devam Et <ArrowRight size={18} className="ml-2" /></>
+                <>Devam Et <ArrowRight size={20} className="ml-2" /></>
               )}
             </button>
           </div>
-        </div>
-        
-        <div className="text-center mt-6 text-xs text-gray-400">
-          Adım {currentStep} / {TOTAL_STEPS}
         </div>
       </div>
     </div>
