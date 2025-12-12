@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google"; // Ortam hatasını önlemek için kapalı
-// import "./globals.css"; // Ortam hatasını önlemek için kapalı
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
-// const inter = Inter({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Eğitimpedia - Okul Tercih Formu",
-  description: "Ebeveyn Mentoru ve Okul Seçim Uzmanı Ali Koç ile okul tercih ve tavsiye formu.",
-  icons: {
-    icon: '/logo.png', // Public klasöründeki logo.png dosyasını kullanır
-  },
+  title: "Eğitimpedia Okul Tercih Formu",
+  description: "",
 };
 
 export default function RootLayout({
@@ -17,11 +22,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Önizleme ortamında "validateDOMNesting" hatasını önlemek için html/body yerine div kullanıyoruz.
   return (
-    <div lang="tr">
-      {/* Font yüklenemediği için varsayılan font kullanılıyor */}
-      <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>{children}</div>
-    </div>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
   );
 }
