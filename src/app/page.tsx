@@ -12,11 +12,11 @@ interface FormData {
   kvkkConsent: boolean;
   marketingConsent: boolean;
   gradeLevel: string;
-  currentSchoolType: string;
-  webinarPurpose: string;
+  currentSchoolType: string[]; // Çoklu seçim için dizi yapıldı
+  webinarPurpose: string[];    // Çoklu seçim için dizi yapıldı
   urgentNeeds: string[];
   childTraits: string[];
-  schoolApproach: string;
+  schoolApproach: string[];    // Çoklu seçim için dizi yapıldı
   budgetRange: string;
   educationValues: string[];
   postWebinarContent: string[];
@@ -36,8 +36,13 @@ interface FormData {
 const initialFormData: FormData = {
   firstname: '', phone: '', city: '', district: '', email: '',
   kvkkConsent: false, marketingConsent: false,
-  gradeLevel: '', currentSchoolType: '', webinarPurpose: '',
-  urgentNeeds: [], childTraits: [], schoolApproach: '', budgetRange: '',
+  gradeLevel: '',
+  currentSchoolType: [], // Dizi olarak başlatıldı
+  webinarPurpose: [],    // Dizi olarak başlatıldı
+  urgentNeeds: [], 
+  childTraits: [], 
+  schoolApproach: [],    // Dizi olarak başlatıldı
+  budgetRange: '',
   educationValues: [], postWebinarContent: [], postWebinarOtherText: '',
   platformWishlist: [], platformWishlistOtherText: '', mentorFeedback: '',
   utm_source: '', utm_medium: '', utm_campaign: '', utm_content: '', utm_term: '',
@@ -47,7 +52,8 @@ const initialFormData: FormData = {
 // --- Seçenekler ---
 const OPTIONS = {
   step2: ['Anaokulu', 'İlkokul', 'Ortaokul', 'Lise'],
-  step3: ['Devlet okulu', 'Özel okul', 'Kolej', 'Butik / alternatif okul', 'Şu an okul arayışındayız'],
+  // "Özel okul" -> "Yabancı Özel Okul" olarak güncellendi
+  step3: ['Devlet okulu', 'Yabancı Özel Okul', 'Kolej', 'Butik / alternatif okul', 'Şu an okul arayışındayız'],
   step4: ['Okul değişimi planlıyoruz', 'Doğru okul modelini anlamak istiyoruz', 'Kararsızız, yönlendirmeye ihtiyacımız var', 'Gelecek yıllar için bilgi almak istiyoruz', 'Sadece bilinçlenmek istiyoruz'],
   step5: ['Akademik başarı', 'Psikolojik iyi oluş', 'Sınav sürecine hazırlık', 'Bireysel ilgi ve takip', 'Güvenli ve destekleyici ortam'],
   step6: ['Akademik yönü güçlüdür', 'Sosyal ilişkileri kuvvetlidir', 'Duygusal farkındalığı yüksektir', 'Yaratıcıdır; sanat/müzik/tasarım alanlarında kendini ifade eder', 'Analitik düşünme ve problem çözme becerisi gelişmiştir', 'Özgüven ve kendini ifade alanında gelişime açıktır', 'Dikkat/odaklanma-disiplin alanında desteğe ihtiyaç vardır', 'Daha önce akademik/psikolojik destek aldık', 'Düzenli spor, sanat veya hobi faaliyeti vardır', 'Sorumluluk konusunda direnç gösterebilir'],
@@ -92,7 +98,6 @@ export default function App() {
   }, [formData]);
 
   useEffect(() => {
-    // Mobilde klavye açılınca kaymayı önlemek için smooth scroll'u sadece üst kısma odaklıyoruz
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -132,10 +137,11 @@ export default function App() {
           formData.kvkkConsent === true
         );
       case 2: return !!formData.gradeLevel;
-      case 3: return !!formData.currentSchoolType;
-      case 4: return !!formData.webinarPurpose;
+      // Çoklu seçim olduğu için dizi uzunluğunu kontrol ediyoruz
+      case 3: return formData.currentSchoolType.length > 0;
+      case 4: return formData.webinarPurpose.length > 0;
       case 5: return formData.urgentNeeds.length > 0;
-      case 7: return !!formData.schoolApproach;
+      case 7: return formData.schoolApproach.length > 0;
       case 8: return !!formData.budgetRange;
       case 9: return formData.educationValues.length > 0;
       default: return true;
@@ -148,7 +154,6 @@ export default function App() {
       else handleSubmit();
     } else {
       setErrorMsg('Lütfen devam etmeden önce zorunlu (*) alanları doldurunuz.');
-      // Mobilde hata mesajına scroll yap
       const errorDiv = document.getElementById('error-message');
       if(errorDiv) errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setTimeout(() => setErrorMsg(''), 4000);
@@ -165,7 +170,16 @@ export default function App() {
     const scriptUrl = "https://script.google.com/macros/s/AKfycbz1PcHKXzqNC9Vv5kQZmy_fl19xsP9tqGrsRPVmrKM4lz34WThDzbnLvFx5BY2OEbQI3Q/exec"; 
 
     try {
-      const payload = JSON.stringify(formData);
+      // Çoklu seçim alanlarını string'e çevirerek gönderiyoruz ki Sheets'te tek hücrede görünsün
+      const payloadData = {
+        ...formData,
+        currentSchoolType: formData.currentSchoolType.join(', '),
+        webinarPurpose: formData.webinarPurpose.join(', '),
+        schoolApproach: formData.schoolApproach.join(', ')
+      };
+
+      const payload = JSON.stringify(payloadData);
+      
       await fetch(scriptUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -351,11 +365,14 @@ export default function App() {
         );
 
       case 2: return renderQuestion('Çocuğunuzun Eğitim Kademesi Nedir?', 'gradeLevel', OPTIONS.step2);
-      case 3: return renderQuestion('Çocuğunuzun Hâlihazırda Devam Ettiği Okul Türü?', 'currentSchoolType', OPTIONS.step3);
-      case 4: return renderQuestion('Webinara Katılma Amacınız?', 'webinarPurpose', OPTIONS.step4);
+      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
+      case 3: return renderQuestion('Çocuğunuzun Hâlihazırda Devam Ettiği Okul Türü?', 'currentSchoolType', OPTIONS.step3, true);
+      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
+      case 4: return renderQuestion('Webinara Katılma Amacınız?', 'webinarPurpose', OPTIONS.step4, true);
       case 5: return renderQuestion('Okul Seçimiyle İlgili En Acil İhtiyacınız?', 'urgentNeeds', OPTIONS.step5, true);
       case 6: return renderQuestion('Çocuğunuzu Tanıtan İfadeler?', 'childTraits', OPTIONS.step6, true);
-      case 7: return renderQuestion('Çocuğunuz İçin Hangi Tür Okul Yaklaşımını Uygun Görüyorsunuz?', 'schoolApproach', OPTIONS.step7, false, 'grid');
+      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
+      case 7: return renderQuestion('Çocuğunuz İçin Hangi Tür Okul Yaklaşımını Uygun Görüyorsunuz?', 'schoolApproach', OPTIONS.step7, true, 'grid');
       case 8: return renderQuestion('Yıllık Bütçe Aralığınız?', 'budgetRange', OPTIONS.step8, false, 'grid');
       case 9: 
         const isYoung = ['Anaokulu', 'İlkokul'].includes(formData.gradeLevel);
@@ -386,8 +403,6 @@ export default function App() {
   };
 
   return (
-    // Mobilde dikey ortalamayı kaldırdık (flex-col items-center justify-center -> flex flex-col items-center)
-    // Bu sayede klavye açılınca içerik yukarı kayabilir
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4 pt-24 pb-10 selection:bg-orange-100 selection:text-orange-900 font-sans">
       
       {/* Top Header Fixed - SOLID WHITE BACKGROUND */}
