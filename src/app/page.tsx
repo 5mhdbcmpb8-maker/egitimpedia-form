@@ -12,11 +12,11 @@ interface FormData {
   kvkkConsent: boolean;
   marketingConsent: boolean;
   gradeLevel: string;
-  currentSchoolType: string[]; // Çoklu seçim için dizi yapıldı
-  webinarPurpose: string[];    // Çoklu seçim için dizi yapıldı
+  currentSchoolType: string[]; 
+  webinarPurpose: string[];    
   urgentNeeds: string[];
   childTraits: string[];
-  schoolApproach: string[];    // Çoklu seçim için dizi yapıldı
+  schoolApproach: string[];    
   budgetRange: string;
   educationValues: string[];
   postWebinarContent: string[];
@@ -37,11 +37,11 @@ const initialFormData: FormData = {
   firstname: '', phone: '', city: '', district: '', email: '',
   kvkkConsent: false, marketingConsent: false,
   gradeLevel: '',
-  currentSchoolType: [], // Dizi olarak başlatıldı
-  webinarPurpose: [],    // Dizi olarak başlatıldı
+  currentSchoolType: [], 
+  webinarPurpose: [],    
   urgentNeeds: [], 
   childTraits: [], 
-  schoolApproach: [],    // Dizi olarak başlatıldı
+  schoolApproach: [],    
   budgetRange: '',
   educationValues: [], postWebinarContent: [], postWebinarOtherText: '',
   platformWishlist: [], platformWishlistOtherText: '', mentorFeedback: '',
@@ -52,7 +52,6 @@ const initialFormData: FormData = {
 // --- Seçenekler ---
 const OPTIONS = {
   step2: ['Anaokulu', 'İlkokul', 'Ortaokul', 'Lise'],
-  // "Özel okul" -> "Yabancı Özel Okul" olarak güncellendi
   step3: ['Devlet okulu', 'Yabancı Özel Okul', 'Kolej', 'Butik / alternatif okul', 'Şu an okul arayışındayız'],
   step4: ['Okul değişimi planlıyoruz', 'Doğru okul modelini anlamak istiyoruz', 'Kararsızız, yönlendirmeye ihtiyacımız var', 'Gelecek yıllar için bilgi almak istiyoruz', 'Sadece bilinçlenmek istiyoruz'],
   step5: ['Akademik başarı', 'Psikolojik iyi oluş', 'Sınav sürecine hazırlık', 'Bireysel ilgi ve takip', 'Güvenli ve destekleyici ortam'],
@@ -137,7 +136,6 @@ export default function App() {
           formData.kvkkConsent === true
         );
       case 2: return !!formData.gradeLevel;
-      // Çoklu seçim olduğu için dizi uzunluğunu kontrol ediyoruz
       case 3: return formData.currentSchoolType.length > 0;
       case 4: return formData.webinarPurpose.length > 0;
       case 5: return formData.urgentNeeds.length > 0;
@@ -170,7 +168,6 @@ export default function App() {
     const scriptUrl = "https://script.google.com/macros/s/AKfycbz1PcHKXzqNC9Vv5kQZmy_fl19xsP9tqGrsRPVmrKM4lz34WThDzbnLvFx5BY2OEbQI3Q/exec"; 
 
     try {
-      // Çoklu seçim alanlarını string'e çevirerek gönderiyoruz ki Sheets'te tek hücrede görünsün
       const payloadData = {
         ...formData,
         currentSchoolType: formData.currentSchoolType.join(', '),
@@ -259,7 +256,6 @@ export default function App() {
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
         <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-gray-200 animate-in zoom-in duration-500">
           
-          {/* Logo (Büyük, Yeşil Tik Üstünde) */}
           <div className="flex justify-center mb-8">
              {!logoError ? (
                 <img src="/logo.png" alt="Eğitimpedia" className="h-20 w-auto object-contain" onError={() => setLogoError(true)} />
@@ -290,7 +286,14 @@ export default function App() {
   const renderContent = () => {
     const renderQuestion = (title: string, field: keyof FormData, options: string[], multi = false, layout: 'grid' | 'list' = 'list', otherField?: keyof FormData) => (
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight tracking-tight">{title}</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          {title}
+          {multi && (
+            <span className="block text-base font-medium text-gray-500 mt-2 font-normal">
+              (Birden fazla seçilebilir)
+            </span>
+          )}
+        </h2>
         <div className={layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'space-y-4'}>
           {options.map((opt) => (
             <SelectionCard 
@@ -365,13 +368,10 @@ export default function App() {
         );
 
       case 2: return renderQuestion('Çocuğunuzun Eğitim Kademesi Nedir?', 'gradeLevel', OPTIONS.step2);
-      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
       case 3: return renderQuestion('Çocuğunuzun Hâlihazırda Devam Ettiği Okul Türü?', 'currentSchoolType', OPTIONS.step3, true);
-      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
       case 4: return renderQuestion('Webinara Katılma Amacınız?', 'webinarPurpose', OPTIONS.step4, true);
       case 5: return renderQuestion('Okul Seçimiyle İlgili En Acil İhtiyacınız?', 'urgentNeeds', OPTIONS.step5, true);
       case 6: return renderQuestion('Çocuğunuzu Tanıtan İfadeler?', 'childTraits', OPTIONS.step6, true);
-      // Çoklu seçime dönüştürüldü (multi=true, checkbox)
       case 7: return renderQuestion('Çocuğunuz İçin Hangi Tür Okul Yaklaşımını Uygun Görüyorsunuz?', 'schoolApproach', OPTIONS.step7, true, 'grid');
       case 8: return renderQuestion('Yıllık Bütçe Aralığınız?', 'budgetRange', OPTIONS.step8, false, 'grid');
       case 9: 
